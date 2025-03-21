@@ -4,31 +4,32 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Karyawan extends Model
 {
+    /** @use HasFactory<\Database\Factories\KaryawanFactory> */
     use HasFactory;
 
-    // Kalau field-nya beda dari 'id', tambahkan ini (optional)
-    // protected $primaryKey = 'kode_karyawan';
-    // public $incrementing = false;
+    protected $table = 'karyawans';
+    protected $guarded = [];
 
-    /**
-     * Generate kode karyawan otomatis
-     */
     public static function getKodeKaryawan()
     {
-        // Ambil record terakhir berdasarkan kode_karyawan
-        $lastKode = self::orderBy('kode_karyawan', 'desc')->first()?->kode_karyawan;
+        // Ambil kode karyawan terakhir
+        $sql = "SELECT IFNULL(MAX(kode_karyawan), 'KRY000') AS kode_karyawan FROM karyawans";
+        $result = DB::select($sql);
 
-        if (!$lastKode) {
-            return 'KR001';
-        }
+        // Ambil hasil dari query
+        $kd = $result[0]->kode_karyawan ?? 'KRY000';
 
-        // Ambil angka dari kode terakhir, misal: KR005 → 5
-        $lastNumber = (int) substr($lastKode, 2);
-        $newNumber = str_pad($lastNumber + 1, 3, '0', STR_PAD_LEFT);
+        // Ambil 3 digit terakhir
+        $noAwal = (int) substr($kd, -3);
+        $noAkhir = $noAwal + 1;
 
-        return 'KR' . $newNumber;
+        // Format jadi KRYxxx
+        $kodeBaru = 'KRY' . str_pad($noAkhir, 3, '0', STR_PAD_LEFT);
+
+        return $kodeBaru;
     }
 }
