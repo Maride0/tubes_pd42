@@ -12,8 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('karyawans', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
+                $table->id('');
+                $table->string('id_karyawan');
+                $table->string('kode_karyawan');
+                $table->string('nama');
+                $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan']); // Jenis kelamin
+                $table->string('no_telepon');
+                $table->text('alamat');
+                $table->timestamps();
         });
     }
 
