@@ -3,7 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
-use App\Models\karyawan;
+use App\Models\Karyawan;
 use Illuminate\Auth\Access\Response;
 
 class KaryawanPolicy
@@ -16,50 +16,32 @@ class KaryawanPolicy
         return true;
     }
 
-    /**
-     * Determine whether the user can view the model.
-     */
-    public function view(User $user, karyawan $karyawan): bool
+    public function view(User $user, Karyawan $karyawan): bool
     {
         return true;
     }
 
-    /**
-     * Determine whether the user can create models.
-     */
     public function create(User $user): bool
     {
         return true;
     }
 
-    /**
-     * Determine whether the user can update the model.
-     */
-    public function update(User $user, karyawan $karyawan): bool
+    public function update(User $user, Karyawan $karyawan): bool
     {
         return true;
     }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, karyawan $karyawan): bool
+    public function delete(User $user, Karyawan $karyawan): bool
     {
         return true;
     }
 
-    /**
-     * Determine whether the user can restore the model.
-     */
-    public function restore(User $user, karyawan $karyawan): bool
+    public function restore(User $user, Karyawan $karyawan): bool
     {
         return true;
     }
 
-    /**
-     * Determine whether the user can permanently delete the model.
-     */
-    public function forceDelete(User $user, karyawan $karyawan): bool
+    public function forceDelete(User $user, Karyawan $karyawan): bool
     {
         return true;
     }
