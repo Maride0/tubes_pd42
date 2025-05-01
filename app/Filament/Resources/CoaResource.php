@@ -17,6 +17,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\TextInput; //kita menggunakan textinput
+use Filament\Forms\Components\Select; //buat dropdown
 
 class CoaResource extends Resource
 {
@@ -42,6 +43,25 @@ class CoaResource extends Resource
                         ->required()
                         ->placeholder('Masukkan nama akun')
                     ,
+                    Select::make('posisi_dr_cr')
+                    ->label('Posisi Debit Kredit')
+                    ->required()
+                    ->options([
+                        'debit' => 'Debit',
+                        'kredit' => 'Kredit',
+                    ])
+                    ->placeholder('Pilih Posisi Debit Kredit')
+                    ,
+                    TextInput::make('saldo_awal')
+                        ->required()
+                        ->minValue(0) // Nilai minimal 0 (opsional jika tidak ingin ada harga negatif)
+                        ->reactive() // Menjadikan input reaktif terhadap perubahan
+                        ->extraAttributes(['id' => 'saldo_awal']) // Tambahkan ID untuk pengikatan JavaScript
+                        ->placeholder('Masukkan saldo Awal') // Placeholder untuk membantu pengguna
+                        ->live()
+                        ->afterStateUpdated(fn ($state, callable $set) => 
+                            $set('saldo_awal', number_format((int) str_replace('.', '', $state), 0, ',', '.'))
+                          )
             ]);
     }
 
@@ -51,10 +71,13 @@ class CoaResource extends Resource
             ->columns([
                 TextColumn::make('header_akun'),
                 TextColumn::make('kode_akun'),
-                TextColumn::make('nama_akun')
-                    ->searchable()
-                    ->sortable()
-                    , 
+                TextColumn::make('nama_akun'),
+                TextColumn::make('posisi_dr_cr'),
+                TextColumn::make('saldo_awal')
+                ->label('Saldo Awal')
+                ->formatStateUsing(fn (string|int|null $state): string => rupiah($state))
+                ->extraAttributes(['class' => 'text-right']) // Tambahkan kelas CSS untuk rata kanan
+                ->sortable()
             ])
             ->filters([
                 Tables\Filters\SelectFilter::make('header_akun')

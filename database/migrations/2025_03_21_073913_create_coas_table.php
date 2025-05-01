@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('header_akun');
             $table->string('kode_akun');
             $table->string('nama_akun');
+            $table->string('posisi_dr_cr');
+            $table->integer('saldo_awal');
             $table->timestamps();
         });
     }
