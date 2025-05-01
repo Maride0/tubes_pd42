@@ -39,7 +39,14 @@ class BahanbakuResource extends Resource
                         'Liter' => 'l',
                         'Pack' => 'pcs',
                     ])
-                    ->placeholder('Pilih satuan bahan baku'),
+                    ->placeholder('Pilih satuan bahan baku')
+                ,
+                TextColumn::make('harga_satuan')
+                    ->label('Harga Satuan')
+                    ->formatStateUsing(fn (string|int|null $state): string => rupiah($state))
+                    ->extraAttributes(['class' => 'text-right']) // Tambahkan kelas CSS untuk rata kanan
+                    ->sortable()
+                ,
             ]);
     }
 

@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id(); // Primary key otomatis (id bigint auto-increment)
             $table->string('kode_bahan_baku', 5)->unique(); // ID custom
             $table->string('nama_bahan_baku', 50);
-            $table->enum('kategori_bahan_baku', ['Bumbu', 'Minuman', 'Daging', 'Sayuran','Lainnya']);
+            $table->enum('satuan', ['Gram', 'Kilogram', 'Mililiter', 'Liter','Pack']);
+            $table->integer('harga_satuan');
             $table->timestamps();
         });
     }
