@@ -30,16 +30,16 @@ class BahanbakuResource extends Resource
                     ->required()
                     ->placeholder('Masukkan nama bahan baku')
                 ,
-                Select::make('kategori_bahan_baku')
+                Select::make('satuan')
                     ->required()
                     ->options([
-                        'bumbu' => 'Bumbu',
-                        'minuman' => 'Minuman',
-                        'daging' => 'Daging',
-                        'sayuran' => 'Sayuran',
-                        'lainnya' => 'Lainnya',
+                        'Gram' => 'gr',
+                        'Kilogram' => 'kg',
+                        'Mililiter' => 'ml',
+                        'Liter' => 'l',
+                        'Pack' => 'pcs',
                     ])
-                    ->placeholder('Pilih kategori bahan baku'),
+                    ->placeholder('Pilih satuan bahan baku'),
             ]);
     }
 
@@ -49,7 +49,7 @@ class BahanbakuResource extends Resource
             ->columns([
                 TextColumn::make('kode_bahan_baku')->searchable(),
                 TextColumn::make('nama_bahan_baku')->searchable()->sortable(),
-                TextColumn::make('kategori_bahan_baku')->searchable(),
+                TextColumn::make('satuan')->searchable(),
             ])
             ->filters([
                 // Tambahkan filter jika diperlukan

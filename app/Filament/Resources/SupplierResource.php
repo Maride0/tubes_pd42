@@ -42,18 +42,7 @@ class SupplierResource extends Resource
                     ->label('Alamat')
                     ->required()
                     ->placeholder('Masukkan Alamat Supplier')
-                    ,
-                Select::make('kategori_bahan_baku')
-                    ->required()
-                    ->options([
-                        'bumbu' => 'Bumbu',
-                        'minuman' => 'Minuman',
-                        'daging' => 'Daging',
-                        'sayuran' => 'Sayuran',
-                        'lainnya' => 'Lainnya',
-                    ])
-                    ->placeholder('Pilih kategori bahan baku'),
-
+            ,
             ]);
     }
 
@@ -65,8 +54,6 @@ class SupplierResource extends Resource
                 TextColumn::make('nama_supplier')->searchable()->sortable(),
                 TextColumn::make('no_telp'),
                 TextColumn::make('alamat'),
-                TextColumn::make('kategori_bahan_baku'),
-
             ])
             ->filters([
                 //

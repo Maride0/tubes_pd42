@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('nama_supplier', 50);
             $table->string('no_telp', 20);
             $table->string('alamat', 100);
-            $table->enum('kategori_bahan_baku', ['Bumbu', 'Minuman', 'Daging', 'Sayuran','Lainnya']);
             $table->timestamps();
         });
     }
