@@ -35,4 +35,11 @@ public static function getKodeBahanBaku()
     return $noakhir;
 }
 
+// Dengan mutator ini, setiap kali data harga_Menu dikirim ke database, koma akan otomatis dihapus.
+public function setHargaSatuanAttribute($value)
+{
+    // Hapus koma (,) dari nilai sebelum menyimpannya ke database
+    $this->attributes['harga_satuan'] = str_replace('.', '', $value);
+}
+
 }

@@ -41,12 +41,16 @@ class BahanbakuResource extends Resource
                     ])
                     ->placeholder('Pilih satuan bahan baku')
                 ,
-                TextColumn::make('harga_satuan')
-                    ->label('Harga Satuan')
-                    ->formatStateUsing(fn (string|int|null $state): string => rupiah($state))
-                    ->extraAttributes(['class' => 'text-right']) // Tambahkan kelas CSS untuk rata kanan
-                    ->sortable()
-                ,
+                TextInput::make('harga_satuan')
+                ->required()
+                ->minValue(0) // Nilai minimal 0 (opsional jika tidak ingin ada harga negatif)
+                ->reactive() // Menjadikan input reaktif terhadap perubahan
+                ->extraAttributes(['id' => 'harga_satuan']) // Tambahkan ID untuk pengikatan JavaScript
+                ->placeholder('Masukkan harga satuan') // Placeholder untuk membantu pengguna
+                ->live()
+                ->afterStateUpdated(fn ($state, callable $set) => 
+                    $set('harga_satuan', number_format((int) str_replace('.', '', $state), 0, ',', '.'))
+                    )
             ]);
     }
 
@@ -57,7 +61,11 @@ class BahanbakuResource extends Resource
                 TextColumn::make('kode_bahan_baku')->searchable(),
                 TextColumn::make('nama_bahan_baku')->searchable(),
                 TextColumn::make('satuan')->searchable(),
-                TextColumn::make('harga_satuan')->searchable()->sortable(),
+                TextColumn::make('harga_satuan')->searchable()
+                ->label('Harga Satuan')
+                ->formatStateUsing(fn (string|int|null $state): string => rupiah($state))
+                ->extraAttributes(['class' => 'text-right']) // Tambahkan kelas CSS untuk rata kanan
+                ->sortable()
             ])
             ->filters([
                 // Tambahkan filter jika diperlukan
