@@ -55,8 +55,9 @@ class BahanbakuResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('kode_bahan_baku')->searchable(),
-                TextColumn::make('nama_bahan_baku')->searchable()->sortable(),
+                TextColumn::make('nama_bahan_baku')->searchable(),
                 TextColumn::make('satuan')->searchable(),
+                TextColumn::make('harga_satuan')->searchable()->sortable(),
             ])
             ->filters([
                 // Tambahkan filter jika diperlukan
