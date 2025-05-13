@@ -33,7 +33,9 @@ class MenuResource extends Resource
 {
     protected static ?string $model = Menu::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-clipboard';
+
+    protected static ?string $navigationGroup = 'Masterdata';
 
     public static function form(Form $form): Form
     {
@@ -69,8 +71,14 @@ class MenuResource extends Resource
                 ,
                 FileUpload::make('foto')
                     ->directory('foto')
+                    ->disk('public')
                     ->required()
                 ,
+                TextInput::make('stok')
+                ->required()
+                ->placeholder('Masukkan stok menu') // Placeholder untuk membantu pengguna
+                ->minValue(0)
+            ,
                 TextInput::make('rating')
                     ->required()
                     ->placeholder('Masukkan rating menu') // Placeholder untuk membantu pengguna
@@ -96,6 +104,7 @@ class MenuResource extends Resource
                     ->sortable()
                 ,
                 ImageColumn::make('foto'),
+                TextColumn::make('stok'),
                 TextColumn::make('rating'),
             ])
             ->filters([

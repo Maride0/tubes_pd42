@@ -16,7 +16,9 @@ class SupplierResource extends Resource
 {
     protected static ?string $model = Supplier::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-truck';
+
+    protected static ?string $navigationGroup = 'Masterdata';
 
     public static function form(Form $form): Form
     {
@@ -36,7 +38,10 @@ class SupplierResource extends Resource
                 TextInput::make('no_telp')
                     ->label('Nomor Telepon')
                     ->required()
-                    ->placeholder('Masukkan nomor telpon')
+                    ->placeholder('Masukkan angka yang diawali dengan 0')
+                    ->numeric() // Validasi agar hanya angka yang diizinkan
+                    ->prefix('+62') // Contoh: Menambahkan prefix jika diperlukan
+                    ->extraAttributes(['pattern' => '^[0-9]+$', 'title' => 'Masukkan angka yang diawali dengan 0']) // Validasi dengan pattern regex
             ,
                 TextInput::make('alamat')
                     ->label('Alamat')

@@ -42,4 +42,9 @@ class menu extends Model
         // Hapus koma (,) dari nilai sebelum menyimpannya ke database
         $this->attributes['harga_menu'] = str_replace('.', '', $value);
     }
+        // Relasi dengan tabel relasi many to many nya
+    public function penjualanBarang()
+    {
+        return $this->hasMany(PenjualanBarang::class, 'kode_menu');
+    }
 }
