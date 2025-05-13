@@ -14,7 +14,9 @@ use Filament\Forms\Components\Select;
 
 class BahanbakuResource extends Resource
 {
-    protected static ?string $navigationIcon = 'heroicon-o-archive-box';
+    protected static ?string $navigationIcon = 'heroicon-o-building-storefront';
+
+    protected static ?string $navigationGroup = 'Masterdata';
 
     public static function form(Form $form): Form
     {
@@ -29,17 +31,6 @@ class BahanbakuResource extends Resource
                 TextInput::make('nama_bahan_baku')
                     ->required()
                     ->placeholder('Masukkan nama bahan baku')
-                ,
-                Select::make('satuan')
-                    ->required()
-                    ->options([
-                        'Gram' => 'gr',
-                        'Kilogram' => 'kg',
-                        'Mililiter' => 'ml',
-                        'Liter' => 'l',
-                        'Pack' => 'pcs',
-                    ])
-                    ->placeholder('Pilih satuan bahan baku')
                 ,
                 TextInput::make('harga_satuan')
                 ->required()
@@ -60,7 +51,6 @@ class BahanbakuResource extends Resource
             ->columns([
                 TextColumn::make('kode_bahan_baku')->searchable(),
                 TextColumn::make('nama_bahan_baku')->searchable(),
-                TextColumn::make('satuan')->searchable(),
                 TextColumn::make('harga_satuan')->searchable()
                 ->label('Harga Satuan')
                 ->formatStateUsing(fn (string|int|null $state): string => rupiah($state))

@@ -34,5 +34,17 @@ public static function getidmember()
     
     return$noakhir;
 }
+ // relasi ke tabel pembeli
+ public function user()
+ {
+     return $this->belongsTo(User::class, 'id'); 
+     // pastikan 'user_id' adalah nama kolom foreign key
+ }
+
+ // relasi ke tabel penjualan
+ public function penjualan()
+ {
+     return $this->hasMany(Penjualan::class, 'member_id');
+ }
 
 }

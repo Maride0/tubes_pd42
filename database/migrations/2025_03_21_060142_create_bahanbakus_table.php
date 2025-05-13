@@ -12,10 +12,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('bahanbaku', function (Blueprint $table) {
-            $table->id(); // Primary key otomatis (id bigint auto-increment)
-            $table->string('kode_bahan_baku', 5)->unique(); // ID custom
+            $table->id();
+            $table->string('kode_bahan_baku', 5)->unique();
             $table->string('nama_bahan_baku', 50);
-            $table->enum('satuan', ['Gram', 'Kilogram', 'Mililiter', 'Liter','Pack']);
             $table->integer('harga_satuan');
             $table->timestamps();
         });

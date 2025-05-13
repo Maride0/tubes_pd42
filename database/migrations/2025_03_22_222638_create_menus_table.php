@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('kategori');
             $table->string('harga_menu');
             $table->string('foto');
+            $table->integer('stok');
             $table->string('rating', 8, 2);
             $table->timestamps();
         });
