@@ -21,6 +21,7 @@
                 <th>No Penjualan</th>
                 <th>Nama Pembeli</th>
                 <th>Status Member</th>
+                <th>Menu Pesanan</th>
                 <th>Total Tagihan</th>
                 <th>Tanggal Transaksi</th>
             </tr>
@@ -31,6 +32,11 @@
                 <td>{{ $p->no_penjualan }}</td>
                 <td>{{ $p->nama }}</td>
                 <td>{{ $p->id_member ? 'Member' : 'Non-member' }}</td>
+                <td>
+                    @foreach($p->penjualanBarang as $item)
+                        {{ $item->menu->nama_menu ?? '-' }} (x{{ $item->jumlah }}) - {{ rupiah($item->harga_jual * $item->jumlah) }}<br>
+                    @endforeach
+                </td>
                 <td class="text-right">{{ rupiah($p->tagihan) }}</td>
                 <td>{{ $p->tanggal }}</td>
             </tr>
