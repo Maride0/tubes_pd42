@@ -35,4 +35,8 @@ public static function getKodeSupplier()
     return $noakhir;
 }
 
+public function pembelianBahanBakus()
+    {
+        return $this->hasMany(PembelianBahanBaku::class, 'kode_supplier');
+    }
 }

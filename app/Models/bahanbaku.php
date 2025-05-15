@@ -42,4 +42,8 @@ public function setHargaSatuanAttribute($value)
     $this->attributes['harga_satuan'] = str_replace('.', '', $value);
 }
 
+ public function detailPembelian()
+{
+    return $this->hasMany(DetailPembelian::class, 'kode_bahan_baku');
+}
 }

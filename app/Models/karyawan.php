@@ -32,4 +32,10 @@ class Karyawan extends Model
         // Format jadi KRYxxx
         return 'KRY' . str_pad($number, 3, '0', STR_PAD_LEFT);
     }
+
+    public function pembelianBahanBakus()
+    {
+        return $this->hasMany(PembelianBahanBaku::class, 'kode_karyawan');
+    }
+
 }
