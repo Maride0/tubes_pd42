@@ -17,8 +17,8 @@ class PenjualanBarang extends Model
         return $this->belongsTo(Penjualan::class, 'penjualan_id');
     }
 
-    public function barang()
+    public function menu()
     {
-        return $this->belongsTo(Barang::class, 'kode_menu');
+        return $this->belongsTo(Menu::class, 'kode_menu', 'id');
     }
 }
