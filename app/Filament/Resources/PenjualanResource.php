@@ -292,8 +292,9 @@ class PenjualanResource extends Resource
                 ->alignment('end')
                 ->sortable(),
         
-            TextColumn::make('created_at')
+            TextColumn::make('tanggal')
                 ->label('Tanggal Transaksi')
+                ->searchable()
                 ->date('d M Y')
                 ->sortable(),
         ])
@@ -316,13 +317,32 @@ class PenjualanResource extends Resource
             ])
             ->headerActions([
                 Action::make('downloadPdf')
-                    ->label('Unduh PDF')
+                    ->label('Lihat Rekapan')
                     ->icon('heroicon-o-document-arrow-down')
                     ->color('success')
-                    ->action(function () {
-                        $penjualan = Penjualan::all();
+                    ->form([
+                        Forms\Components\DatePicker::make('tanggal_awal')
+                            ->label('Dari Tanggal')
+                            ->required(),
 
-                        $pdf = Pdf::loadView('pdf.penjualan', ['penjualan' => $penjualan]);
+                        Forms\Components\DatePicker::make('tanggal_akhir')
+                            ->label('Sampai Tanggal')
+                            ->required(),
+                    ])
+                    ->action(function (array $data) {
+                            $penjualan = \App\Models\Penjualan::whereBetween('tanggal', [
+                                $data['tanggal_awal'],
+                                \Carbon\Carbon::parse($data['tanggal_akhir'])->endOfDay()
+                            ])->get();
+                            //SELECT * FROM penjualans
+                            // WHERE created_at BETWEEN '2025-05-01 00:00:00' AND '2025-05-07 23:59:59';
+                            //bntuk querynya klo kira" bingung 
+
+                            $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('pdf.penjualan', [
+                                'penjualan' => $penjualan,
+                                'tanggal_awal' => $data['tanggal_awal'],
+                                'tanggal_akhir' => $data['tanggal_akhir'],
+                            ]);
 
                         return response()->streamDownload(
                             fn () => print($pdf->output()),
