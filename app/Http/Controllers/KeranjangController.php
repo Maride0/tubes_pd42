@@ -102,9 +102,9 @@ class KeranjangController extends Controller
             $id_user = Auth::user()->id;
 
             // dapatkan user_id dari user_id di tabel users sesuai data yang login
-            $member = member::where('user_id', $id_user)
-                            ->select(DB::raw('id'))
-                            ->first();
+            $member = Member::where('user_id', $id_user)->first();
+            $nama_member = $member ? $member->nama : 'Guest';  // fallback kalau null
+            
             $id_member = $member->id;
 
             // cek di database apakah ada nomor faktur yang masih aktif
@@ -138,6 +138,7 @@ class KeranjangController extends Controller
                     // Buat penjualan baru jika tidak ada
                     $penjualan = Penjualan::create([
                         'no_penjualan'   => Penjualan::getKodePenjualan(),
+                        'nama'         => $nama_member,
                         'tanggal'         => now(),
                         'id_member'  => $id_member,
                         'tagihan'     => 0,
@@ -162,7 +163,7 @@ class KeranjangController extends Controller
                     'kode_menu' => $kode_menu,
                     'jumlah' => $jumlah,
                     'harga_beli'=>$harga,
-                    'harga_jual'=>$harga*1.2,
+                    'harga_jual' => ($harga*1.1)*0.98, // harga jual 10% lebih mahal dari harga beli
                     'tanggal'=>date('Y-m-d')
                 ]);
 
@@ -256,11 +257,11 @@ class KeranjangController extends Controller
                         ->get();
 
         // hitung jumlah total tagihan
-        $ttl = 0; $jumlah_brg = 0; $kode_faktur = '';
+        $ttl = 0; $jumlah_brg = 0; $kode_penjualan = '';
         foreach($menu as $p){
             $ttl += $p->total_belanja;
             $jumlah_brg += 1;
-            $kode_faktur = $p->no_faktur;
+            $kode_penjualan = $p->no_penjualan;
             $idpenjualan = $p->id;
             $odid = $p->order_id;
         }
@@ -276,7 +277,7 @@ class KeranjangController extends Controller
             $orderid = $odid;
         }
         else{
-            $orderid =$kode_faktur.'-'.date('YmdHis'); //FORMAT
+            $orderid =$kode_penjualan.'-'.date('YmdHis'); //FORMAT
         }
 
         $URL =  'https://api.sandbox.midtrans.com/v2/'.$orderid.'/status';
@@ -295,7 +296,7 @@ class KeranjangController extends Controller
             // cek jika jumlah datanya 0 maka jangan menjalankan payment gateway
             if($ttl>0){
                 // proses generate token payment gateway
-                $order_id = $kode_faktur.'-'.date('YmdHis');
+                $order_id = $kode_penjualan.'-'.date('YmdHis');
                 
 
                 $myArray = array(); //untuk menyimpan objek array
@@ -402,11 +403,11 @@ class KeranjangController extends Controller
                                  )
                         ->get();
 
-            $ttl = 0; $jumlah_brg = 0; $kode_faktur = '';
+            $ttl = 0; $jumlah_brg = 0; $kode_penjualan = '';
             foreach($menu as $p){
                 $ttl += $p->total_belanja;
                 $jumlah_brg += 1;
-                $kode_faktur = $p->no_faktur;
+                $kode_penjualan = $p->no_faktur;
                 $idpenjualan = $p->id;
             }
 
@@ -503,7 +504,7 @@ class KeranjangController extends Controller
         // var_dump($pembayaranPending);
         // dd();
         $id = array();
-        $kode_faktur = array();
+        $kode_penjualan = array();
 		foreach($pembayaranPending as $ks){
 			array_push($id,$ks->order_id);
             // echo $ks->order_id;
@@ -511,7 +512,7 @@ class KeranjangController extends Controller
             $parts = explode('-', $ks->order_id);
             $substring = $parts[0] . '-' . $parts[1];
 
-            array_push($kode_faktur,$substring);
+            array_push($kode_penjualan,$substring);
             // echo $substring;
 		}
 
@@ -522,7 +523,7 @@ class KeranjangController extends Controller
             $password = '';
             $orderid = $id[$i];
             // echo $orderid;
-            $kode_faktur = $kode_faktur[$i];
+            $kode_penjualan = $kode_penjualan[$i];
             $URL =  'https://api.sandbox.midtrans.com/v2/'.$orderid.'/status';
             curl_setopt($ch, CURLOPT_URL, $URL);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
@@ -578,7 +579,7 @@ class KeranjangController extends Controller
                              set status = "bayar"
                              where no_faktur = ?',
                             [
-                                $kode_faktur
+                                $kode_penjualan
                             ]
                         );
                     }
@@ -680,11 +681,11 @@ class KeranjangController extends Controller
                         ->get();
 
         // hitung jumlah total tagihan
-        $ttl = 0; $jumlah_brg = 0; $kode_faktur = '';
+        $ttl = 0; $jumlah_brg = 0; $kode_penjualan = '';
         foreach($menu as $p){
             $ttl += $p->total_belanja;
             $jumlah_brg += 1;
-            $kode_faktur = $p->no_faktur;
+            $kode_penjualan = $p->no_faktur;
             $idpenjualan = $p->id;
         }
         
