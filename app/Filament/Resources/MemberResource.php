@@ -23,7 +23,7 @@ use App\Models\User;
 
 class MemberResource extends Resource
 {
-    protected static ?string $model = member::class;
+    protected static ?string $model =Member::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-face-smile';
 
@@ -35,86 +35,82 @@ class MemberResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                 //direlasikan ke tabel user
-                 Select::make('id')
-                 ->label('Id User')
-                 ->relationship('user', 'email', fn (Builder $query) => $query->where('user_group', '!=', 'admin'))
-                 ->searchable() // Menambahkan fitur pencarian
-                 ->preload() // Memuat opsi lebih awal untuk pengalaman yang lebih cepat
-                 ->required()
-                 ->live()
-                 ->afterStateUpdated(function ($state, callable $set) {
-                     if ($state) {
-                         $user = User::find($state);
-                         $set('nama', $user->name);
-                     }
-                 })
-                 ,
-                    TextInput::make('id_member')
-                        ->default(fn () =>  Member::getidmember())
-                        ->required()
-                        ->placeholder('Masukkan id member')
-                    ,
-                    TextInput::make('nama')
-                    ->autocapitalize('words')
-                    ->label('Nama member')
-                    ->required()
-                    ->placeholder('Masukkan nama member')
-                    ,
-                    TextInput::make('alamat')
-                    ->required()
-                    ->placeholder('Masukkan alamat pembeli') // Placeholder untuk membantu pengguna
-                ,
-                    TextInput::make('no_telp')
-                    ->required()
-                    ->placeholder('Masukkan nomor telepon') // Placeholder untuk membantu pengguna
-                    ->numeric() // Validasi agar hanya angka yang diizinkan
-                    ->prefix('+62') // Contoh: Menambahkan prefix jika diperlukan
-                    ->extraAttributes(['pattern' => '^[0-9]+$', 'title' => 'Masukkan angka yang diawali dengan 0']) // Validasi dengan pattern regex
-                ,
-            ]);
-    }
+        ->schema([
+            Select::make('user_id')
+                ->label('User')
+                ->relationship('user', 'email')
+                ->searchable()
+                ->preload()
+                ->required()
+                ->live()
+                ->afterStateUpdated(function ($state, callable $set) {
+                    if ($state) {
+                        $user = User::find($state);
+                        $set('nama', $user->name);
+                    }
+                }),
 
-    public static function table(Table $table): Table
-    {
-        return $table
-            ->columns([
-                TextColumn::make('id_member')
-                ->sortable(),
-                TextColumn::make('nama'),
-                TextColumn::make('alamat'),
-                TextColumn::make('no_telp')
-                ->label('No HP')
-                ->formatStateUsing(fn ($state) => '+62' . substr($state, 1)), // jika no disimpan pakai 08xxxx, 
-            ])
-          
-        
-            ->actions([
-                Tables\Actions\ViewAction::make(),
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
-            ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            TextInput::make('id_member')
+                ->default(fn () => Member::getidmember())
+                ->required()
+                ->readonly(),
+
+            TextInput::make('nama')
+                ->autocapitalize('words')
+                ->label('Nama member')
+                ->required()
+                ->placeholder('Masukkan nama member'),
+
+            TextInput::make('alamat')
+                ->required()
+                ->placeholder('Masukkan alamat pembeli'),
+
+            TextInput::make('no_telp')
+                ->required()
+                ->placeholder('Masukkan nomor telepon')
+                ->numeric()
+                ->prefix('+62')
+                ->extraAttributes([
+                    'pattern' => '^[0-9]+$',
+                    'title' => 'Masukkan angka yang diawali dengan 0',
                 ]),
-            ]);
-    }
+        ]);
+}
 
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
+public static function table(Table $table): Table
+{
+    return $table
+        ->columns([
+            TextColumn::make('id_member')->sortable(),
+            TextColumn::make('nama'),
+            TextColumn::make('alamat'),
+            TextColumn::make('no_telp')
+                ->label('No HP')
+                ->formatStateUsing(fn ($state) => '+62' . substr($state, 1)),
+        ])
+        ->actions([
+            Tables\Actions\ViewAction::make(),
+            Tables\Actions\EditAction::make(),
+            Tables\Actions\DeleteAction::make(),
+        ])
+        ->bulkActions([
+            Tables\Actions\BulkActionGroup::make([
+                Tables\Actions\DeleteBulkAction::make(),
+            ]),
+        ]);
+}
 
-    public static function getPages(): array
-    {
-        return [
-            'index' => Pages\ListMembers::route('/'),
-            'create' => Pages\CreateMember::route('/create'),
-            'edit' => Pages\EditMember::route('/{record}/edit'),
-        ];
-    }
+public static function getRelations(): array
+{
+    return [];
+}
+
+public static function getPages(): array
+{
+    return [
+        'index' => Pages\ListMembers::route('/'),
+        'create' => Pages\CreateMember::route('/create'),
+        'edit' => Pages\EditMember::route('/{record}/edit'),
+    ];
+}
 }
