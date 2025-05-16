@@ -43,13 +43,22 @@ class MemberController extends Controller
      */
     public function store(StorememberRequest $request)
     {
-         //digunakan untuk validasi kemudian kalau ok tidak ada masalah baru disimpan ke db
-         $validated = $request->validate([
+        $validated = $request->validate([
             'id_member' => 'required',
             'nama' => 'required|unique:member|min:5|max:255',
             'no_telp' => 'required',
         ]);
-    }
+    
+        Member::create([
+            'id_member' => $validated['id_member'],
+            'nama' => $validated['nama'],
+            'no_telp' => $validated['no_telp'],
+            'alamat' => $request->alamat, // tambahkan kalau ada field ini
+            'user_id' => auth()->id(),    // pastikan user sudah login
+        ]);
+    
+        return redirect()->route('member.index')->with('success', 'Data member berhasil ditambahkan.');
+    }    
 
     /**
      * Display the specified resource.
