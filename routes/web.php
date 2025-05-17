@@ -32,7 +32,7 @@ Route::get('/depan', [App\Http\Controllers\KeranjangController::class, 'daftarme
 // tambah keranjang
 Route::post('/tambah', [App\Http\Controllers\KeranjangController::class, 'tambahKeranjang'])->middleware('customer');
 Route::get('/lihatkeranjang', [App\Http\Controllers\KeranjangController::class, 'lihatkeranjang'])->middleware('customer');
-Route::delete('/hapus/{menu_id}', [App\Http\Controllers\KeranjangController::class, 'hapus'])->middleware('customer');
+Route::delete('/hapus/{kode_menu}', [App\Http\Controllers\KeranjangController::class, 'hapus'])->middleware('customer');
 Route::get('/lihatriwayat', [App\Http\Controllers\KeranjangController::class, 'lihatriwayat'])->middleware('customer');
 // untuk autorefresh
 Route::get('/cek_status_pembayaran_pg', [App\Http\Controllers\KeranjangController::class, 'cek_status_pembayaran_pg']);
