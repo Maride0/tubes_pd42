@@ -68,3 +68,38 @@ Route::get('/cekmidtrans', [CobaMidtransController::class, 'cekmidtrans']);
 // proses pengiriman email
 use App\Http\Controllers\PengirimanEmailController;
 Route::get('/proses_kirim_email_pembayaran', [PengirimanEmailController::class, 'proses_kirim_email_pembayaran']);
+
+Route::post('/form-produksi', function (Request $request) {
+    // Generate kode produksi otomatis
+    $kode_produksi = 'PRD-' . strtoupper(Str::random(8)); $validated = $request->validate([
+        'kode_karyawan'           => 'required|exists:karyawans,id',
+        'menu_id'                 => 'required|exists:menus,id',
+        'tgl_produksi'            => 'required|date',
+        'jumlah'                  => 'required|integer|min:1',
+        'porsi'                   => 'required|integer|min:1',
+        'keterangan'              => 'nullable|string',
+        'bahan_baku'              => 'required|array|min:1',
+        'bahan_baku.*.id'         => 'required|exists:bahan_bakus,id',
+        'bahan_baku.*.nama'       => 'required|string',
+        'bahan_baku.*.jumlah'     => 'required|numeric|min:0.01',
+    ]);
+
+    // Simpan ke database
+    $produksi = Produksi::create([
+        'kode_produksi' => $kode_produksi,
+        'kode_karyawan' => $validated['kode_karyawan'],
+        'kode_menu'     => $validated['menu_id'],
+        'tgl_produksi'  => Carbon::parse($validated['tgl_produksi']),
+        'jumlah'        => $validated['jumlah'],
+        'porsi'         => $validated['porsi'],
+        'keterangan'    => $validated['keterangan'] ?? null,
+        'bahan_baku'    => json_encode($validated['bahan_baku']),
+    ]);
+
+    // Jika kamu pakai Filament, balasan bisa seperti ini:
+    return response()->json([
+        'success' => true,
+        'message' => 'Data produksi berhasil disimpan!',
+        'data' => $produksi,
+    ]);
+});
