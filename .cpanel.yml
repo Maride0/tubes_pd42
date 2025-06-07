@@ -1,0 +1,7 @@
+deployment:
+  tasks:
+    - export COMPOSER_ALLOW_SUPERUSER=1
+    - /opt/cpanel/ea-php82/root/usr/bin/php artisan migrate --force
+    - /opt/cpanel/ea-php82/root/usr/bin/php artisan config:clear
+    - /opt/cpanel/ea-php82/root/usr/bin/php artisan cache:clear
+    - /opt/cpanel/ea-php82/root/usr/bin/php artisan config:cache
