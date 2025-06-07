@@ -283,7 +283,7 @@
                 document.getElementById('cart-total').textContent = "Total: " +vtotal;
                 document.getElementById('total_belanja').textContent = vtotal;
                 // jumlahmenudibeli
-                document.getElementById('cart-count').textContent = data.jumlahmenudibeli;
+                document.getElementById('cart-count').textContent = data.jmlmenudibeli;
 
                 location.reload(); // Refresh tampilan
             } else {
