@@ -1,8 +1,9 @@
 <?php
 //bisa di definisi kaya gini
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\Contoh1Controller;
+use App\Http\Controllers\BeritaController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,9 +37,9 @@ Route::delete('/hapus/{kode_menu}', [App\Http\Controllers\KeranjangController::c
 Route::get('/lihatriwayat', [App\Http\Controllers\KeranjangController::class, 'lihatriwayat'])->middleware('customer');
 // untuk autorefresh
 Route::get('/cek_status_pembayaran_pg', [App\Http\Controllers\KeranjangController::class, 'cek_status_pembayaran_pg']);
-Route::get('/login', function () {
-    return view('login');
-});
+// Route::get('/login', function () {
+//     return view('login');
+// });
 
 Route::get('/logout', function () {
     Auth::logout();
@@ -68,6 +69,9 @@ Route::get('/cekmidtrans', [CobaMidtransController::class, 'cekmidtrans']);
 // proses pengiriman email
 use App\Http\Controllers\PengirimanEmailController;
 Route::get('/proses_kirim_email_pembayaran', [PengirimanEmailController::class, 'proses_kirim_email_pembayaran']);
+
+//untuk praktek berita API
+Route::get('/berita', [BeritaController::class, 'index'])->middleware(['auth', 'customer']);
 
 Route::post('/form-produksi', function (Request $request) {
     // Generate kode produksi otomatis
