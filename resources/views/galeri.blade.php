@@ -69,7 +69,39 @@
     </symbol>
   </defs>
 </svg>
+<header>
+  <div class="container-fluid py-3 border-bottom">
+    <div class="row align-items-center">
 
+      <!-- Logo -->
+      <div class="col-md-3 text-center text-md-start mb-3 mb-md-0">
+        <a href="index.html">
+          <img src="images/logo.png" alt="Pondok 42 Food" style="height: 150px;">
+        </a>
+      </div>
+
+      <!-- Search + Kategori -->
+      <div class="col-md-6 mb-3 mb-md-0">
+        <form action="index.html" method="get" class="d-flex gap-2">
+          <!-- Dropdown Kategori -->
+          <select class="form-select bg-light" name="kategori" style="max-width: 150px;">
+            <option value="">Pilih Kategori</option>
+            <option value="makanan">Makanan</option>
+            <option value="minuman">Minuman</option>
+          </select>
+
+          <!-- Input Pencarian -->
+          <input type="text" class="form-control bg-light" name="search" placeholder="Cari Menu">
+
+          <!-- Tombol Cari -->
+          <button class="btn btn-dark" type="submit">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M21.71 20.29L18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 7-7a7 7 0 0 1-7 7Z"/>
+            </svg>
+          </button>
+        </form>
+      </div>
+      
 <div class="preloader-wrapper">
   <div class="preloader">
   </div>
@@ -112,7 +144,7 @@
         <span class="text-primary">Search</span>
       </h4>
       <form role="search" action="index.html" method="get" class="d-flex mt-3 gap-0">
-        <input class="form-control rounded-start rounded-0 bg-light" type="email" placeholder="What are you looking for?" aria-label="What are you looking for?">
+        <input class="form-control rounded-start rounded-0 bg-black" type="email" placeholder="What are you looking for?" aria-label="What are you looking for?">
         <button class="btn btn-dark rounded-end rounded-0" type="submit">Search</button>
       </form>
     </div>
@@ -123,11 +155,7 @@
   <div class="container-fluid">
   <div class="row py-2 border-bottom align-items-center">
       <div class="col-sm-4 col-lg-3 text-center text-sm-start">
-        <div class="main-logo">
-          <a href="index.html">
-            <img src="images/logo.png" alt="logo" class="img-fluid">
-          </a>
-        </div>
+      
       </div>
 
       <div class="col-sm-6 offset-sm-2 offset-md-0 col-lg-5 d-none d-lg-block">
@@ -183,7 +211,9 @@
     
     <div class="row">
       <div class="col-md-12">
+        <div class="product-item" style="background-color:rgb(250, 248, 237); border-radius: 10px; padding: 10px;">
 
+        
       <div class="bootstrap-tabs product-tabs">
           <div class="tabs-header d-flex justify-content-between border-bottom my-5">
             <h3>Menu</h3>
