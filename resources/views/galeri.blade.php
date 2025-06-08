@@ -96,6 +96,7 @@
       <button class="w-100 btn btn-primary btn-lg" type="submit" onclick="window.location.href='/lihatkeranjang'">Lihat Keranjang</button> <br><br>
       <a href="/depan" class="w-100 btn btn-dark btn-lg" type="submit">Lihat Galeri</a> <br><br>
       <a href="/lihatriwayat" class="w-100 btn btn-info btn-lg" type="submit">Riwayat Pemesanan</a> <br><br>
+      <a href="/berita" class="w-100 btn btn-success btn-lg" type="submit">Lihat Berita</a> <br><br>
       <a href="/logout" class="w-100 btn btn-danger btn-lg" type="submit">Keluar</a>
     </div>
   </div>
@@ -120,8 +121,7 @@
 
 <header>
   <div class="container-fluid">
-    <div class="row py-3 border-bottom">
-      
+  <div class="row py-2 border-bottom align-items-center">
       <div class="col-sm-4 col-lg-3 text-center text-sm-start">
         <div class="main-logo">
           <a href="index.html">
@@ -178,7 +178,7 @@
 </header>
 
 
-<section class="py-5">
+<section class="pt-2 pb-4" style="margin-bottom: 100px;">
   <div class="container-fluid">
     
     <div class="row">
@@ -186,14 +186,14 @@
 
       <div class="bootstrap-tabs product-tabs">
           <div class="tabs-header d-flex justify-content-between border-bottom my-5">
-            <h3>Produk Terbaru</h3>
+            <h3>Menu</h3>
           </div>
           <div class="tab-content" id="nav-tabContent">
             <div class="tab-pane fade show active" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab">
              <!-- Tambahan untuk CSRF -->
              <meta name="csrf-token" content="{{ csrf_token() }}">
              <!-- Akhir Tambahan untuk CSRF -->
-             <div class="product-grid row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
+              <div class="product-grid row justify-content-center row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
                 @foreach($menu as $p)
                 <div class="col">
                   <div class="product-item">
@@ -237,7 +237,27 @@
     </div>
   </div>
 </section>
+<!-- Tambahan untuk motivasi -->
+<!-- <section class="section-motivasi">
+      <div class="container-fluid">
 
+        <div class="bg-warning py-3 rounded-5" >
+          <div class="container">
+            <div class="row">
+              <div class="col-md-12">
+                {{motivasi()}}
+              </div>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+    </section> -->
+    <section class="motivasi-section">
+  <div class="motivasi-wrapper">
+                {{motivasi()}}
+  </div>
+</section>
 <!-- Tambahan Javascript untuk Handler Penambahan dan Pengurangan Jumlah Produk -->
  <script>
   const getTotalTransaction = () => {

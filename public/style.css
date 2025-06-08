@@ -346,8 +346,10 @@ h1,h2,h3,h4,h5,h6 {
 
 /* *** Start editing below this line *** */
 .container-fluid {
-  max-width: 1600px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
+
 .banner-blocks {
   display: grid;
   grid-template-columns: repeat(12, 1fr);
@@ -542,6 +544,9 @@ h1,h2,h3,h4,h5,h6 {
 /* .product-grid {
   gap: 25px;
 } */
+.product-grid .col {
+  padding: 12px; /* atau lebih */
+}
 .product-item {
   position: relative;
   padding: 16px;
@@ -718,5 +723,66 @@ h1,h2,h3,h4,h5,h6 {
 @media screen and (min-width:1200px) {
   .product-thumbnail-slider {
     height: 740px;
+  }
+}
+.tab-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+.product-item {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.product-item h3 {
+  min-height: 50px; /* atau sesuai kebutuhan */
+  overflow: hidden;
+
+}
+.product-item > .d-flex {
+  margin-top: auto;
+}
+section.py-5 {
+  margin-top: 0 !important;
+  padding-top: 1rem !important;
+}
+/*----------------------------------------------*/
+.motivasi-section {
+  margin: 80px 0 100px;
+}
+
+.motivasi-wrapper {
+  background-color: #fff8e1;
+  padding: 24px 32px;
+  border-radius: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+.motivasi-text {
+  margin: 0 auto;
+  font-size: 1.25rem; /* sekitar 20px */
+  color: #444;
+  line-height: 1.6;
+  text-align: center;
+  font-style: italic;
+  max-width: 900px;
+}
+
+.motivasi-wrapper {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
