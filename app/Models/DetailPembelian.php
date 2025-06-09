@@ -11,7 +11,7 @@ class DetailPembelian extends Model
     use HasFactory;
 
     protected $table = 'detail_pembelian';
-     protected $fillable = [
+    protected $fillable = [
         'pembelian_bahan_baku_id',
         'kode_bahan_baku',
         'quantity',
