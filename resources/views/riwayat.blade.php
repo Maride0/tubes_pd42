@@ -65,8 +65,8 @@
   <div class="offcanvas-body">
     <div class="order-md-last">
       <h4 class="d-flex justify-content-between align-items-center mb-3">
-        <span class="text-primary">Jumlah Menu</span>
-        <span id="cart-count" class="badge bg-primary rounded-pill">{{$jml_mn ?? 0}}</span>
+        <span class="text-primary">Jumlah Barang</span>
+        <span id="cart-count" class="badge bg-primary rounded-pill">{{$jml_brg ?? 0}}</span>
       </h4>
 
       <li class="list-group-item d-flex justify-content-between">
@@ -153,53 +153,44 @@
     
     <div class="row">
       <div class="col-md-12">
-
-        <div class="bootstrap-tabs product-tabs">
-          <div class="tabs-header d-flex justify-content-between border-bottom my-5">
-            <h3>Keranjang Anda</h3>
-          </div>
-          <div class="tab-content" id="nav-tabContent">
-            <div class="tab-pane fade show active" id="nav-all" role="tabpanel" aria-labelledby="nav-all-tab">
-
-              <meta name="csrf-token" content="{{ csrf_token() }}">
-              <div class="product-grid row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5">
-                @foreach($menu as $p)
-                <div class="col">
-                  <div class="product-item">
-                    <!-- <span class="badge bg-success position-absolute m-3">-30%</span> -->
-                    <a href="#" class="btn-wishlist"><svg width="24" height="24"><use xlink:href="#heart"></use></svg></a>
-                    <figure>
-                      <a href="{{ Storage::url($p->foto) }}" title="Product Title">
-                        <img src="{{ Storage::url($p->foto) }}" class="img-fluid">
-                      </a>
-                    </figure>
-                    <h3>{{$p->nama_menu}}</h3>
-                    <span class="qty">Jumlah Pembelian: {{ $p->total_menu }} Unit</span><br>
-                    <span class="qty"><b>Total : {{rupiah($p->total_belanja)}}</b></span> <br>
-                    <button class="w-100 btn btn-danger btn-sm" type="submit" onclick="hapus({{ $p->kode_menu }})">Hapus</button>
-                  </div>
-                </div>
-                @endforeach
-              </div>
-            
-              <!-- / product-grid -->
-              
-            </div>
-            
-          </div>
-        </div>
+          <h4 class="d-flex justify-content-between align-items-center mb-3">
+            <span class="text-primary">Riwayat Pemesanan Anda</span>
+          </h4>
 
         <!-- Tambahan List -->
           <ul class="list-group mb-3">
+          @php
+            $totalTagihan = 0;
+          @endphp
+          @foreach($transaksi as $p)
+            @php
+              $totalTagihan += $p->tagihan;
+            @endphp
             <li class="list-group-item d-flex justify-content-between">
-              <h6 class="my-0">Total</h6>
-              <strong>{{rupiah($total_tagihan)}}</strong>
+              <div>
+               
+                  <h6 class="my-0">{{ $p->no_penjualan }}</h6>
+                  <strong>status: ter{{$p->status}} pada {{$p->tgl}} </strong>
+                  <strong>tagihan: {{rupiah($p->tagihan)}} </strong>
+              
+              <ul class="mt-2 mb-0 ps-3">
+                @foreach($detail_barang[$p->id] ?? [] as $barang)
+                  <li>
+                    {{ $barang->nama_menu }} x {{ $barang->jml }} = {{ rupiah($barang->harga_jual*$barang->jml) }}
+                  </li>
+                @endforeach
+              </ul>
+              </div>
+            </li>
+          @endforeach
+            <li class="list-group-item d-flex justify-content-between bg-light">
+              <div class="text-success">
+                <h6 class="my-0">Total Transaksi</h6>
+              </div>
+              <span><strong>{{ rupiah($totalTagihan) }}</strong></span>
             </li>
           </ul>
           <!-- <button class="w-100 btn btn-primary btn-lg" type="submit">Bayar</button> -->
-          <div class="text-center mt-4">
-                    <button id="pay-button" class="w-100 btn btn-primary btn-lg">Bayar</button>
-          </div>
          <!-- Akhir tambahan list -->
 
       </div>
@@ -207,104 +198,6 @@
   </div>
 </section>
 
-<!-- Tambahan script untuk payment gateway -->
-<script type="text/javascript">
-    // Pastikan Midtrans Snap.js sudah dimuat
-    var payButton = document.getElementById('pay-button');
-    payButton.addEventListener('click', function () {
-        // console.log("Token:", "{{ $snap_token }}");
-        window.snap.pay('{{$snap_token}}', {
-        onSuccess: function(result){
-            console.log('Pembayaran berhasil:', result);
-            Swal.fire({
-                    icon: 'success',
-                    title: 'Berhasil!',
-                    text: 'Pembayaran Berhasil',
-                    showConfirmButton: false,
-                    timer: 2000 // Popup otomatis hilang setelah 2 detik
-                });
-            window.location.href = "/depan";
-        },
-        onPending: function(result){
-            // console.log('Pembayaran tertunda:', result);
-            Swal.fire({
-                  icon: 'error',
-                  title: 'Oops...',
-                  text: 'Pembayaran Tertunda'
-                });
-            window.location.href = "/depan";
-        },
-        onError: function(result){
-            // console.log('Pembayaran gagal:', result);
-            Swal.fire({
-                  icon: 'error',
-                  title: 'Oops...',
-                  text: 'Pembayaran Gagal'
-                });
-            // alert("Pembayaran gagal. Silakan coba lagi.");
-            window.location.href = "/depan";
-        },
-        onClose: function(){
-            alert("Anda menutup pop-up pembayaran sebelum menyelesaikan transaksi.");
-        }
-        });
-    });
-</script>
 
-<!-- untuk sintak hapus data -->
- <script>
-  function hapus(kode_menu) {
-        // console.log(productId);
-        fetch('/hapus/'+kode_menu, {
-            method: 'DELETE',
-            headers: {
-                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // alert("Produk berhasil dihapus!");
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Berhasil!',
-                    text: 'Produk berhasil dihapus dari keranjang!',
-                    showConfirmButton: false,
-                    timer: 2000 // Popup otomatis hilang setelah 2 detik
-                });
-
-                // let vtotal = new Intl.NumberFormat("en-IN").format(data.total);
-                let formatter = new Intl.NumberFormat('id-ID', {
-                              style: 'currency',
-                              currency: 'IDR',
-                              minimumFractionDigits: 0
-                            });
-                let vtotal = formatter.format(data.total);
-                document.getElementById('cart-total').textContent = "Total: " +vtotal;
-                document.getElementById('total_belanja').textContent = vtotal;
-                // jumlahmenudibeli
-                document.getElementById('cart-count').textContent = data.jmlmenudibeli;
-
-                location.reload(); // Refresh tampilan
-            } else {
-                // alert("Gagal menghapus produk.");
-                console.log(data);
-                // Swal.fire({
-                //   icon: 'error',
-                //   title: 'Oops...',
-                //   text: 'Gagal menghapus produk dari keranjang!'
-                // });
-            }
-        })
-        .catch(error => {
-        console.error('Error:', error);
-          Swal.fire({
-              icon: 'error',
-              title: 'Terjadi Kesalahan',
-              text: error.message || 'Terjadi kesalahan saat menghapus produk.',
-          });
-        });
-    }
- </script>
 
 @endsection

@@ -192,7 +192,7 @@ class KeranjangController extends Controller
                 // hitung total menu
                 $jumlahmenudibeli = DB::table('penjualan')
                             ->join('penjualan_barang', 'penjualan.id', '=', 'penjualan_barang.penjualan_id')
-                            ->join->join('member', 'penjualan.id_member', '=', 'member.id')
+                            ->join('member', 'penjualan.id_member', '=', 'member.id')
                             ->join('pembayaran', 'penjualan.id', '=', 'pembayaran.penjualan_id')
                             ->select(DB::raw('COUNT(DISTINCT kode_menu) as total'))
                             ->where('penjualan.id', '=', $id_member) 
@@ -386,7 +386,7 @@ class KeranjangController extends Controller
                         ->join('penjualan_barang', 'penjualan.id', '=', 'penjualan_barang.penjualan_id')
                         ->join('pembayaran', 'penjualan.id', '=', 'pembayaran.penjualan_id')
                         ->join('menu', 'penjualan_barang.kode_menu', '=', 'menu.id')
-                        ->join->join('member', 'penjualan.id_member', '=', 'member.id')
+                        ->join('member', 'penjualan.id_member', '=', 'member.id')
                         ->select('penjualan.id','penjualan.no_penjualan','member.nama', 'penjualan_barang.kode_menu', 'menu.nama_menu','penjualan_barang.harga_jual', 
                                  'menu.foto',
                                   DB::raw('SUM(penjualan_barang.jumlah) as total_menu'),
@@ -424,75 +424,66 @@ class KeranjangController extends Controller
     }
 
     // untuk menghapus
-    public function hapus($kode_menu)
-    {
-        date_default_timezone_set('Asia/Jakarta');
-        $id_user = Auth::user()->id;
+ public function hapus($kode_menu)
+{
+    date_default_timezone_set('Asia/Jakarta');
+    $id_user = Auth::user()->id;
 
-        // dapatkan user_id dari user_id di tabel users sesuai data yang login
-        $member = member::where('user_id', $id_user)
-                        ->select(DB::raw('id'))
-                        ->first();
-        $id_member = $member->id;
-
-        
-        $sql = "DELETE FROM penjualan_barang WHERE kode_menu = ? AND penjualan_id = (SELECT penjualan.id FROM penjualan join pembayaran on (penjualan.id=pembayaran.penjualan_id) WHERE penjualan.id = ? AND ((pembayaran.gross_amount = 0) or (pembayaran.jenis_pembayaran='pg' and pembayaran.status_code<>'200')))";
-        $deleted = DB::delete($sql, [$kode_menu,$id_member]);
-        
-        $penjualan = DB::table('penjualan')
-            ->join('pembayaran', 'penjualan.id', '=', 'pembayaran.penjualan_id')
-            ->select('penjualan.id')
-            ->where('penjualan.id', $id_member)
-            ->where(function($query) {
-                $query->where('pembayaran.gross_amount', 0)
-                      ->orWhere(function($q) {
-                          $q->where('pembayaran.status_code', '!=', 200)
-                            ->where('pembayaran.jenis_pembayaran', 'pg');
-                      });
-            })
-            ->first();
-
-        // Update total tagihan pada tabel penjualan
-        $tagihan = DB::table('penjualan')
-        ->join('penjualan_barang', 'penjualan.id', '=', 'penjualan_barang.penjualan_id')
-        ->join('pembayaran', 'penjualan.id', '=', 'pembayaran.penjualan_id')
-        ->select(DB::raw('SUM(harga_jual * jumlah) as total'))
-        ->where('penjualan.id', '=', $id_member) 
-        ->where(function($query) {
-            $query->where('pembayaran.gross_amount', 0)
-                  ->orWhere(function($q) {
-                      $q->where('pembayaran.status_code', '!=', 200)
-                        ->where('pembayaran.jenis_pembayaran', 'pg');
-                  });
-        })
+    // Ambil ID member berdasarkan user_id
+    $member = DB::table('member')
+        ->where('user_id', $id_user)
         ->first();
 
-        if ($penjualan) {
-            DB::table('penjualan')
-                ->where('id', $penjualan->id)
-                ->update(['tagihan' => $tagihan->total]);
-        }
-
-         
-
-        $jumlahmenudibeli = DB::table('penjualan')
-                            ->join('penjualan_barang', 'penjualan.id', '=', 'penjualan_barang.penjualan_id')
-                            ->join->join('member', 'penjualan.id_member', '=', 'member.id')
-                            ->join('pembayaran', 'penjualan.id', '=', 'pembayaran.penjualan_id')
-                            ->select(DB::raw('COUNT(DISTINCT kode_menu) as total'))
-                            ->where('penjualan.id', '=', $id_member) 
-                            ->where(function($query) {
-                                $query->where('pembayaran.gross_amount', 0)
-                                      ->orWhere(function($q) {
-                                          $q->where('pembayaran.status_code', '!=', 200)
-                                            ->where('pembayaran.jenis_pembayaran', 'pg');
-                                      });
-                            })
-                            ->get();
-
-
-        return response()->json(['success' => true, 'message' => 'Produk berhasil dihapus', 'total' => $tagihan->total, 'jumlahmenudibeli'=>$jumlahmenudibeli[0]->total ?? 0]);
+    if (!$member) {
+        return response()->json(['success' => false, 'message' => 'Member tidak ditemukan']);
     }
+
+    // Cari ID penjualan aktif milik member itu
+    $penjualan = DB::table('penjualan')
+        ->join('pembayaran', 'penjualan.id', '=', 'pembayaran.penjualan_id')
+        ->where('penjualan.id_member', $member->id)
+        ->where(function($q) {
+            $q->where('pembayaran.gross_amount', 0)
+              ->orWhere(function($sub) {
+                  $sub->where('pembayaran.status_code', '!=', 200)
+                      ->where('pembayaran.jenis_pembayaran', 'pg');
+              });
+        })
+        ->select('penjualan.id')
+        ->first();
+
+    if (!$penjualan) {
+        return response()->json(['success' => false, 'message' => 'Transaksi belum ditemukan']);
+    }
+
+    // Hapus item dari penjualan_barang
+    DB::table('penjualan_barang')
+        ->where('kode_menu', $kode_menu)
+        ->where('penjualan_id', $penjualan->id)
+        ->delete();
+    // Update total tagihan
+    $tagihan = DB::table('penjualan_barang')
+        ->where('penjualan_id', $penjualan->id)
+        ->select(DB::raw('SUM(harga_jual * jumlah) as total'))
+        ->first();
+
+    DB::table('penjualan')
+        ->where('id', $penjualan->id)
+        ->update(['tagihan' => $tagihan->total ?? 0]);
+
+    // Hitung ulang jumlah menu yang dibeli
+    $jumlahmenudibeli = DB::table('penjualan_barang')
+        ->where('penjualan_id', $penjualan->id)
+        ->count(DB::raw('DISTINCT kode_menu'));
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Produk berhasil dihapus',
+        'total' => $tagihan->total ?? 0,
+        'jumlahmenudibeli' => $jumlahmenudibeli
+    ]);
+}
+
 
     // untuk autorefresh dari server midtrans yang sudah terbayarkan akan diupdatekan ke database
     // termasuk menangani ketika sudah expired
@@ -632,7 +623,7 @@ class KeranjangController extends Controller
         // jumlah menu dibeli
         $jumlahmenudibeli = DB::table('penjualan')
                             ->join('penjualan_barang', 'penjualan.id', '=', 'penjualan_barang.penjualan_id')
-                            ->join->join('member', 'penjualan.id_member', '=', 'member.id')
+                            ->join('member', 'penjualan.id_member', '=', 'member.id')
                             ->join('pembayaran', 'penjualan.id', '=', 'pembayaran.penjualan_id')
                             ->select(DB::raw('COUNT(DISTINCT kode_menu) as total'))
                             ->where('penjualan.id', '=', $id_member) 
@@ -663,7 +654,7 @@ class KeranjangController extends Controller
                         ->join('penjualan_barang', 'penjualan.id', '=', 'penjualan_barang.penjualan_id')
                         ->join('pembayaran', 'penjualan.id', '=', 'pembayaran.penjualan_id')
                         ->join('menu', 'penjualan_barang.kode_menu', '=', 'menu.id')
-                        ->join->join('member', 'penjualan.id_member', '=', 'member.id')
+                        ->join('member', 'penjualan.id_member', '=', 'member.id')
                         ->select('penjualan.id','penjualan.no_penjualan','member.nama', 'penjualan_barang.kode_menu', 'menu.nama_menu','penjualan_barang.harga_jual', 
                                  'menu.foto',
                                   DB::raw('SUM(penjualan_barang.jumlah) as total_menu'),
