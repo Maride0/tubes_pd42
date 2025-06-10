@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('penjualan', function (Blueprint $table) {
-            $table->dropColumn('nama');
+        Schema::create('jurnal', function (Blueprint $table) {
+            $table->id();
+            $table->date('tgl');
+            $table->string('no_referensi')->nullable();
+            $table->string('deskripsi')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -21,8 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('penjualan', function (Blueprint $table) {
-            $table->string('nama')->nullable(); // atau sesuaikan dengan tipe aslinya
-        });
+        Schema::dropIfExists('jurnal');
     }
 };

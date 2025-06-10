@@ -39,8 +39,6 @@ class ClusteringVisual extends Page
             ];
         }
 
-
-       
         $samples = array_values($members);
         $coordinates = array_map(fn($m) => [
             $m['total_belanja'],
@@ -56,7 +54,7 @@ class ClusteringVisual extends Page
 
         foreach ($clusters as $clusterIndex => $cluster) {
             foreach ($cluster as $point) {
-               
+
                 foreach ($samples as $key => $sample) {
                     if (
                         $sample['total_belanja'] === $point[0] &&

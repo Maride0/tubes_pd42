@@ -56,6 +56,7 @@ class PembelianBahanBakuResource extends Resource
                                 DateTimePicker::make('tgl_beli')
                                     ->label('Tanggal Pembelian')
                                     ->default(now())
+                                    ->timezone('Asia/Jakarta')
                                 ,
 
                                 Select::make('kode_supplier')
@@ -147,7 +148,8 @@ class PembelianBahanBakuResource extends Resource
 
                     DatePicker::make('jatuh_tempo')
                         ->label('Tanggal Jatuh Tempo')
-                        ->required(),
+                        ->required()
+                        ->timezone('Asia/Jakarta'),
                 ]),
             ])->columnSpan(3)
         ]);
@@ -161,7 +163,7 @@ class PembelianBahanBakuResource extends Resource
                 ->label('No Faktur')
                 ->searchable(),
 
-                TextColumn::make('supplier.nama_supplier') // relasi ke tabel supplier
+                TextColumn::make('supplier.nama_supplier') 
                     ->label('Nama Supplier')
                     ->sortable()
                     ->searchable(),
@@ -171,13 +173,7 @@ class PembelianBahanBakuResource extends Resource
                     ->date()
                     ->sortable(),
 
-                /*TextColumn::make('status')
-                    ->label('Status')
-                    ->badge()
-                    ->color(fn (string $state): string => match ($state) {
-                        'bayar' => 'success',
-                        'pesan' => 'warning',
-                    }),*/
+            
                 TextColumn::make('metode_pembayaran')
                     ->label('Metode Pembayaran')
                     ->badge()
