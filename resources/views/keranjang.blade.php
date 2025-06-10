@@ -176,7 +176,7 @@
                     <h3>{{$p->nama_menu}}</h3>
                     <span class="qty">Jumlah Pembelian: {{ $p->total_menu }} Unit</span><br>
                     <span class="qty"><b>Total : {{rupiah($p->total_belanja)}}</b></span> <br>
-                    <button class="w-100 btn btn-danger btn-sm" type="submit" onclick="hapus({{ $p->menu_id }})">Hapus</button>
+                    <button class="w-100 btn btn-danger btn-sm" type="submit" onclick="hapus({{ $p->kode_menu }})">Hapus</button>
                   </div>
                 </div>
                 @endforeach
@@ -253,9 +253,9 @@
 
 <!-- untuk sintak hapus data -->
  <script>
-  function hapus(menu_id) {
+  function hapus(kode_menu) {
         // console.log(productId);
-        fetch('/hapus/'+menu_id, {
+        fetch('/hapus/'+kode_menu, {
             method: 'DELETE',
             headers: {
                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
