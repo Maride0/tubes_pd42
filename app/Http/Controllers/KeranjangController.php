@@ -461,7 +461,6 @@ class KeranjangController extends Controller
         ->where('kode_menu', $kode_menu)
         ->where('penjualan_id', $penjualan->id)
         ->delete();
-
     // Update total tagihan
     $tagihan = DB::table('penjualan_barang')
         ->where('penjualan_id', $penjualan->id)
@@ -736,6 +735,6 @@ class KeranjangController extends Controller
         
 
         // $total_transaction = Penjualan::whereHas()
-    }
+        }
 
 }

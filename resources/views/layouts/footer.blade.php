@@ -1,7 +1,35 @@
-<footer class="py-5">
-      <div class="container-fluid">
-        <div class="row">
-
+<footer class="mt-32 max-md:mt-10 max-md:max-w-full">
+  <div class="flex flex-wrap gap-5 justify-between max-md:max-w-full">
+    <div class="self-start">
+      <div class="flex shrink-0 bg-zinc-300 h-[19px] w-[46px]"></div>
+      <div class="flex gap-2 mt-12 max-md:mt-10">
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/27dd15fe970e4daab5d821bbcee28733/3945190fe3b132f48a4bba4af308524c4013c31f?placeholderIfAbsent=true"
+          alt="Social media"
+          class="object-contain shrink-0 rounded-md aspect-[1.11] w-[41px]"
+        />
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/27dd15fe970e4daab5d821bbcee28733/7a3e773c1e4257b4db520ecdabc4abf955037ada?placeholderIfAbsent=true"
+          alt="Social media"
+          class="object-contain shrink-0 rounded-md aspect-[1.11] w-[41px]"
+        />
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/27dd15fe970e4daab5d821bbcee28733/e0e0a97f99a280017251a3baf87c685f2981ef98?placeholderIfAbsent=true"
+          alt="Social media"
+          class="object-contain shrink-0 rounded-md aspect-[1.11] w-[41px]"
+        />
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/27dd15fe970e4daab5d821bbcee28733/72344bb67c71dd1d362e340c50efc089cd4a3793?placeholderIfAbsent=true"
+          alt="Social media"
+          class="object-contain shrink-0 rounded-md aspect-[1.11] w-[41px]"
+        />
+        <img
+          src="https://cdn.builder.io/api/v1/image/assets/27dd15fe970e4daab5d821bbcee28733/c7f5e3dc7002b6d1b6d5850ba63f09693c9c0ae4?placeholderIfAbsent=true"
+          alt="Social media"
+          class="object-contain shrink-0 rounded-md aspect-[1.11] w-[41px]"
+        />
+      </div>
+    </div>
           <div class="col-lg-3 col-md-6 col-sm-6">
             <div class="footer-menu">
               <img src="images/logo.png" alt="logo">
@@ -37,111 +65,49 @@
             </div>
           </div>
 
-          <div class="col-md-2 col-sm-6">
-            <div class="footer-menu">
-              <h5 class="widget-title">Ultras</h5>
-              <ul class="menu-list list-unstyled">
-                <li class="menu-item">
-                  <a href="#" class="nav-link">About us</a>
-                </li>
-                <li class="menu-item">
-                  <a href="#" class="nav-link">Conditions </a>
-                </li>
-                <li class="menu-item">
-                  <a href="#" class="nav-link">Our Journals</a>
-                </li>
-                <li class="menu-item">
-                  <a href="#" class="nav-link">Careers</a>
-                </li>
-                <li class="menu-item">
-                  <a href="#" class="nav-link">Affiliate Programme</a>
-                </li>
-                <li class="menu-item">
-                  <a href="#" class="nav-link">Ultras Press</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-md-2 col-sm-6">
-            <div class="footer-menu">
-              <h5 class="widget-title">Customer Service</h5>
-              <ul class="menu-list list-unstyled">
-                <li class="menu-item">
-                  <a href="#" class="nav-link">FAQ</a>
-                </li>
-                <li class="menu-item">
-                  <a href="#" class="nav-link">Contact</a>
-                </li>
-                <li class="menu-item">
-                  <a href="#" class="nav-link">Privacy Policy</a>
-                </li>
-                <li class="menu-item">
-                  <a href="#" class="nav-link">Returns & Refunds</a>
-                </li>
-                <li class="menu-item">
-                  <a href="#" class="nav-link">Cookie Guidelines</a>
-                </li>
-                <li class="menu-item">
-                  <a href="#" class="nav-link">Delivery Information</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-md-2 col-sm-6">
-            <div class="footer-menu">
-              <h5 class="widget-title">Customer Service</h5>
-              <ul class="menu-list list-unstyled">
-                <li class="menu-item">
-                  <a href="#" class="nav-link">FAQ</a>
-                </li>
-                <li class="menu-item">
-                  <a href="#" class="nav-link">Contact</a>
-                </li>
-                <li class="menu-item">
-                  <a href="#" class="nav-link">Privacy Policy</a>
-                </li>
-                <li class="menu-item">
-                  <a href="#" class="nav-link">Returns & Refunds</a>
-                </li>
-                <li class="menu-item">
-                  <a href="#" class="nav-link">Cookie Guidelines</a>
-                </li>
-                <li class="menu-item">
-                  <a href="#" class="nav-link">Delivery Information</a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-6 col-sm-6">
-            <div class="footer-menu">
-              <h5 class="widget-title">Subscribe Us</h5>
-              <p>Subscribe to our newsletter to get updates about our grand offers.</p>
-              <form class="d-flex mt-3 gap-0" role="newsletter">
-                <input class="form-control rounded-start rounded-0 bg-light" type="email" placeholder="Email Address" aria-label="Email Address">
-                <button class="btn btn-dark rounded-end rounded-0" type="submit">Subscribe</button>
-              </form>
-            </div>
-          </div>
-          
-        </div>
-      </div>
-    </footer>
-    <div id="footer-bottom">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-md-6 copyright">
-            <p>© 2025 Foodmart. All rights reserved.</p>
-          </div>
-          <div class="col-md-6 credit-link text-start text-md-end">
-            <p>Free HTML Template by <a href="https://templatesjungle.com/">TemplatesJungle</a> Distributed by <a href="https://themewagon">ThemeWagon</a></p>
-          </div>
-        </div>
-      </div>
+    <nav class="flex flex-col items-start text-base text-black">
+      <h3 class="self-stretch text-xl font-bold leading-tight text-neutral-800">Customer Service</h3>
+      <ul class="mt-2 space-y-1">
+        <li><a href="#" class="hover:text-neutral-600">FAQ</a></li>
+        <li><a href="#" class="hover:text-neutral-600">Contact</a></li>
+        <li><a href="#" class="hover:text-neutral-600 mt-5 block">Returns & Refunds</a></li>
+        <li><a href="#" class="hover:text-neutral-600">Cookie Guidelines</a></li>
+        <li><a href="#" class="hover:text-neutral-600 max-md:mr-2.5">Delivery Information</a></li>
+      </ul>
+    </nav>
+
+    <nav class="flex flex-col items-start text-base text-black">
+      <h3 class="self-stretch text-xl font-bold leading-tight text-neutral-800">Customer Service</h3>
+      <ul class="mt-2 space-y-1">
+        <li><a href="#" class="hover:text-neutral-600">FAQ</a></li>
+        <li><a href="#" class="hover:text-neutral-600">Contact</a></li>
+        <li><a href="#" class="hover:text-neutral-600 mt-5 block">Returns & Refunds</a></li>
+        <li><a href="#" class="hover:text-neutral-600">Cookie Guidelines</a></li>
+        <li><a href="#" class="hover:text-neutral-600 max-md:mr-2.5">Delivery Information</a></li>
+      </ul>
+    </nav>
+
+    <!-- NewsletterSignup placeholder -->
+    <div class="flex flex-col text-base text-black">
+      <h3 class="text-xl font-bold leading-tight text-neutral-800">Join our Newsletter</h3>
+      <form class="mt-2 flex flex-col gap-2">
+        <input
+          type="email"
+          placeholder="Enter your email"
+          class="px-4 py-2 border rounded-md focus:outline-none focus:ring focus:border-blue-300"
+        />
+        <button type="submit" class="px-4 py-2 bg-black text-white rounded-md hover:bg-neutral-800">
+          Subscribe
+        </button>
+      </form>
     </div>
-    <script src="js/jquery-1.11.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
-    <script src="js/plugins.js"></script>
-    <script src="js/script.js"></script>
-  </body>
-</html>
+  </div>
+
+  <div class="flex flex-wrap gap-5 justify-between mt-16 w-full text-base text-black max-w-[1409px] max-md:mt-10 max-md:max-w-full">
+    <p>© 2025 Foodmart. All rights reserved.</p>
+    <div class="flex gap-10 text-right">
+      <span>Free HTML Template by</span>
+      <span>Distributed by</span>
+    </div>
+  </div>
+</footer>
