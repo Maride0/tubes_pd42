@@ -4,7 +4,7 @@ namespace App\Filament\Pages;
 
 use Filament\Pages\Page;
 use Illuminate\Support\Facades\DB;
-use Phpml\Clustering\KMeans; // Pastikan sudah install php-ml via composer
+use Phpml\Clustering\KMeans; 
 
 class ClusteringVisual extends Page
 {
@@ -39,16 +39,13 @@ class ClusteringVisual extends Page
             ];
         }
 
-
-        // Siapkan array samples untuk clustering: [total_belanja, jumlah_transaksi]
-        // Dan juga simpan indeks untuk mapping hasil clustering ke member yang sesuai
         $samples = array_values($members);
         $coordinates = array_map(fn($m) => [
             $m['total_belanja'],
             $m['jumlah_transaksi'],
         ], $samples);
 
-        // Inisialisasi KMeans dengan 5 cluster (sesuai kode kamu)
+        // Inisialisasi KMeans dengan 5 cluster 
         $kmeans = new KMeans(5);
         $clusters = $kmeans->cluster($coordinates);
 
@@ -57,7 +54,7 @@ class ClusteringVisual extends Page
 
         foreach ($clusters as $clusterIndex => $cluster) {
             foreach ($cluster as $point) {
-                // Cari sample yang cocok dan hapus agar tidak duplikat
+
                 foreach ($samples as $key => $sample) {
                     if (
                         $sample['total_belanja'] === $point[0] &&
